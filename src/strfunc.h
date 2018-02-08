@@ -23,8 +23,8 @@ char ** sf_word_split(char * wordlist){
 	char buffer[strlen(wordlist)+1];
 	size_t c = 0, z = 0, reset = 0;
 	int count = sf_word_count(wordlist);
-	words = malloc(sizeof(char*) * count);
-	for(size_t i = 0; i < count; i++){
+	words = malloc(sizeof(char*) * (int)count);
+	for(size_t i = 0; i < (size_t)count; i++){
 		words[i] = malloc(sizeof(char*) * strlen(wordlist));
 	}
 	// test = "A B C D E F"

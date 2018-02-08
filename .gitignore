@@ -1,0 +1,6 @@
+*.sw*
+ark
+log
+old.c
+pointer.c
+strmogrify.c
