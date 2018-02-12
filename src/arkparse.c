@@ -59,7 +59,7 @@ int aur_search_parse(char * data, aur_pkg_t * pkgs){
  pkgs[0].pkg_count = pkg_count;
  json_t * results = json_object_get(root,"results");
  json_t * pkginfo;
- for(size_t i = 0; i < pkg_count; i++){
+ for(size_t i = 0; i < (unsigned)pkg_count; i++){
   cdata = json_array_get(results,i);
   pkginfo = json_object_get(cdata, "Name");
   pkgs[i].name = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
@@ -70,6 +70,10 @@ int aur_search_parse(char * data, aur_pkg_t * pkgs){
   pkginfo = json_object_get(cdata,"Description");
   pkgs[i].description = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
   strncpy(pkgs[i].description, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
+  pkginfo = json_object_get(cdata,"Maintainer");
+  pkgs[i].maintainer = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
+  strncpy(pkgs[i].description, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
+
  }
  return 1; 
 } 
@@ -102,12 +106,15 @@ int aur_info_parse(char * data, aur_pkg_t * pkgs){
   strncpy(pkgs[0].version, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
   pkginfo = json_object_get(cdata, "Description");
   pkgs[0].description = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
+  memset((void*)pkgs[0].description,0,strlen(json_string_value(pkginfo)));
   strncpy(pkgs[0].description, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
   pkginfo = json_object_get(cdata, "Maintainer");
-  pkgs[0].maintainer = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
-  if(strcmp(json_string_value(pkginfo),"((null))") == 0){
-      strncpy(pkgs[0].maintainer, "None", 4);
-  }else {
+  if(json_string_value(pkginfo) == 0){
+	pkgs[0].maintainer = malloc(sizeof(char) * 4);
+	strncpy(pkgs[0].maintainer,"None",4);
+  }
+  else {
+      pkgs[0].maintainer = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
       strncpy(pkgs[0].maintainer, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
   }
   pkginfo = json_object_get(cdata,"URL");

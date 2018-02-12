@@ -24,11 +24,11 @@ if (opt == AUR_SEARCH) {
  aur_search_data(argv[2], opt, data);
  aur_search_parse(data, pkgs);
  int pkg_count = pkgs[0].pkg_count;
- for(size_t i = 0; i < pkg_count; i++){
+ for(size_t i = 0; i < (unsigned)pkg_count; i++){
    search_print(pkgs[i]);
  }
 } else if ( opt == AUR_INFO ){
- aur_search_data(argv[2], opt, &data);
+ aur_search_data(argv[2], opt, data);
  aur_info_parse(data, pkgs);
  info_print(pkgs[0]);
 }

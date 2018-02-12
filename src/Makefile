@@ -2,15 +2,14 @@ CFLAGS = -ggdb -Wall -Wextra $(shell pkg-config --cflags jansson libcurl)
 LDLIBS = $(shell pkg-config --libs jansson libcurl)
 
 SOURCES = ark.c aurpkg.c strfunc.c arkparse.c
-OBJS = ark.o aurpkg.o strfunc.o arkparse.o
 HEADERS = ark.h arkparse.h aurpkg.h strfunc.h
 
 all: ark
 
-ark: $(SOURCES) $(HEADERS) $(OBJS)
+ark: $(SOURCES) $(HEADERS)
 
 ark-dbg: $(SOURCES) $(HEADERS)
-	cc $(SOURCES) $(CFLAGS) $(LDLIBS) -o ark-dbg -D ARK_DEBUG
+	cc $(SOURCES) $(CFLAGS) $(LDLIBS) -D ARK_DEBUG
 
 clean:
 	rm -f ark
