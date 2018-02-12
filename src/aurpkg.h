@@ -28,13 +28,6 @@ struct aur_pkg_t
 
 typedef struct aur_pkg_t aur_pkg_t;
 
-
-void aur_print(aur_pkg_t pkg){
-	printf("Name: %s %s\nDesc: %s\nMaintainer: %s\nDepends: %s\nConflicts: %s\nLicense: %s\nURL: %s\n",
-			pkg.name, pkg.version,
-			pkg.description, pkg.maintainer,
-			pkg.pacinfo.depends, pkg.pacinfo.conflicts,
-			pkg.pacinfo.license, pkg.url );
-}
+void aur_print(aur_pkg_t pkg); // pretty print for aur pkgs
 
 #endif // AURPKG_H
