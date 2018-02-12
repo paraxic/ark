@@ -1,9 +1,19 @@
-BIN=ark
-CC=ark.c
-LIBS=-ljansson -lcurl
-FLAGS=-Wall -Wextra
+CFLAGS = -ggdb -Wall -Wextra $(shell pkg-config --cflags jansson libcurl)
+LDLIBS = $(shell pkg-config --libs jansson libcurl)
 
+SOURCES = ark.c
+HEADERS = ark.h arkparse.h aurpkg.h strfunc.h
 
-all:
-	gcc ${CC} -o ${BIN} ${LIBS} ${FLAGS}
-	gcc ${CC} -o ${BIN}-debug ${LIBS} ${FLAGS} -D ARK_DEBUG -ggdb
+all: ark
+
+ark: $(SOURCES) $(HEADERS)
+
+ark-dbg: $(SOURCES) $(HEADERS)
+	cc $(SOURCES) $(CFLAGS) $(LDLIBS) -o ark-dbg -D ARK_DEBUG
+
+clean:
+	rm -f ark
+	rm -f ark-dbg
+
+.PHONY: all clean
+
