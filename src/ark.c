@@ -16,7 +16,7 @@ if( strcmp(argv[1],"-s") == 0 || strcmp(argv[1], "--search") == 0){
  opt = AUR_INFO;
 }
 aur_pkg_t pkgs[500];
-char data[1024 * 100];
+char data[1024 * 1000];
 for(size_t i = 0; i < (1024 * 4); i++){
 data[i] = 0;
 }

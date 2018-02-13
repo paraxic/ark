@@ -60,19 +60,34 @@ int aur_search_parse(char * data, aur_pkg_t * pkgs){
  json_t * results = json_object_get(root,"results");
  json_t * pkginfo;
  for(size_t i = 0; i < (unsigned)pkg_count; i++){
+ //Allocate roughly the max amount of data we expect 
+  pkgs[i].name = malloc(sizeof(char) * 50);
+  pkgs[i].version = malloc(sizeof(char) * 50);
+  pkgs[i].description = malloc(sizeof(char) * 500);
+  pkgs[i].maintainer = malloc(sizeof(char) * 50);
+  pkgs[i].url = malloc(sizeof(char) * 500);
+  
+  memset((void*)pkgs[i].name, 0, 50);
+  memset((void*)pkgs[i].version, 0, 50);
+  memset((void*)pkgs[i].description, 0, 500);
+  memset((void*)pkgs[i].maintainer, 0, 50);
+  memset((void*)pkgs[i].url, 0, 500);
+  
   cdata = json_array_get(results,i);
+  
   pkginfo = json_object_get(cdata, "Name");
-  pkgs[i].name = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
   strncpy(pkgs[i].name, json_string_value(pkginfo),strlen(json_string_value(pkginfo)));
+  
   pkginfo = json_object_get(cdata,"Version");
-  pkgs[i].version = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
   strncpy(pkgs[i].version, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
+ 
   pkginfo = json_object_get(cdata,"Description");
-  pkgs[i].description = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
   strncpy(pkgs[i].description, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
+
   pkginfo = json_object_get(cdata,"Maintainer");
-  pkgs[i].maintainer = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
-  strncpy(pkgs[i].description, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
+  if(!json_is_null(pkginfo) && json_is_string(pkginfo)){
+  strncpy(pkgs[i].maintainer, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
+  } else { strncpy(pkgs[i].maintainer, "None\0",5); }
 
  }
  return 1; 
@@ -96,35 +111,45 @@ int aur_info_parse(char * data, aur_pkg_t * pkgs){
   if(!json_is_array(results)){
 	fprintf(stderr,"jansson: Not an Array line 98\n");
   }
- json_t * pkginfo;
+  //Allocate roughly the max amount of data we expect 
+  pkgs[0].name = malloc(sizeof(char) * 50);
+  pkgs[0].version = malloc(sizeof(char) * 50);
+  pkgs[0].description = malloc(sizeof(char) * 500);
+  pkgs[0].maintainer = malloc(sizeof(char) * 50);
+  pkgs[0].url = malloc(sizeof(char) * 500);
+  
+  memset((void*)pkgs[0].name, 0, 50);
+  memset((void*)pkgs[0].version, 0, 50);
+  memset((void*)pkgs[0].description, 0, 500);
+  memset((void*)pkgs[0].maintainer, 0, 50);
+  memset((void*)pkgs[0].url, 0, 500);
+  
+  json_t * pkginfo;
   cdata = json_array_get(results,0);
+  
   pkginfo = json_object_get(cdata, "Name");
-  pkgs[0].name = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
   strncpy(pkgs[0].name, json_string_value(pkginfo), json_string_length(pkginfo));
+  
   pkginfo = json_object_get(cdata, "Version");
-  pkgs[0].version = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
   strncpy(pkgs[0].version, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
+  
   pkginfo = json_object_get(cdata, "Description");
-  pkgs[0].description = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
-  memset((void*)pkgs[0].description,0,strlen(json_string_value(pkginfo)));
   strncpy(pkgs[0].description, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
+  
   pkginfo = json_object_get(cdata, "Maintainer");
-  if(json_string_value(pkginfo) == 0){
-	pkgs[0].maintainer = malloc(sizeof(char) * 4);
-	strncpy(pkgs[0].maintainer,"None",4);
-  }
-  else {
-      pkgs[0].maintainer = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
-      strncpy(pkgs[0].maintainer, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
+  if(!json_is_null(pkginfo)){
+    strncpy(pkgs[0].maintainer, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
+  } else {
+    strncpy(pkgs[0].maintainer, "None\0",5);
   }
   pkginfo = json_object_get(cdata,"URL");
-  pkgs[0].url = malloc(sizeof(char) * (int)strlen(json_string_value(pkginfo)));
   strncpy(pkgs[0].url, json_string_value(pkginfo), strlen(json_string_value(pkginfo)));
-  return 1; 
+  
+return 1; 
 } 
 
 void search_print(aur_pkg_t pkg){
- printf("aur/%s %s\t (%s)\n%s\n",pkg.name,pkg.version,pkg.maintainer,pkg.description);
+ printf("aur/%s %s\t (Maintainer: %s)\n\t%s\n",pkg.name,pkg.version,pkg.maintainer,pkg.description);
 }
 
 void info_print(aur_pkg_t pkg){

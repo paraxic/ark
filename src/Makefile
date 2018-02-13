@@ -9,7 +9,7 @@ all: ark
 ark: $(SOURCES) $(HEADERS)
 
 ark-dbg: $(SOURCES) $(HEADERS)
-	cc $(SOURCES) $(CFLAGS) $(LDLIBS) -D ARK_DEBUG
+	cc $(SOURCES) $(CFLAGS) $(LDLIBS) -o ark-dbg -D ARK_DEBUG
 
 clean:
 	rm -f ark
