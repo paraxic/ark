@@ -5,6 +5,9 @@ size_t aur_get(char * ptr, size_t size, size_t nmemb, void * user){
 //here in this function;
 if((size * nmemb) == 0){ fprintf(stderr,"aur_get: No Data"); return 0;}
  size_t data_size = (nmemb * size);
+ #ifdef ARK_DEBUG
+  printf("AUR_GET: DATA SIZE == %d\n",(int)data_size);
+ #endif
  strncpy((char*)user, ptr, data_size);
 return data_size;
 }
