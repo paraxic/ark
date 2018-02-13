@@ -1,0 +1,12 @@
+Environment Info
+================
+gnu GCC version 7.2.1 20180116
+(binutils) gnu as & gnu ld version 2.29.1
+Linux 4.14.13-1-ARCH (Arch Linux)
+termite v13
+bash 4.4.12(1)-release (x86_64-unknown-linux-gnu)
+LANG=en_us.utf8
+
+
+Segfault line 7 ark.c : int main(int argc, char * argv[])
+
