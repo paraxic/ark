@@ -16,7 +16,7 @@
 #define AUR_BASE_URL "https://aur.archlinux.org/rpc/?v=5"
 
 size_t aur_get(char * ptr, size_t size, size_t nmemb, void * user); // curl callback
-void aur_search_data(char * keyword, int type, char * data); // grabs data using curl from AUR_BASE_URL
+void aur_search_data(char * keyword, int type, cdata * data); // grabs data using curl from AUR_BASE_URL
 int aur_search_parse(char * data, aur_pkg_t * pkgs); // parse search info query into aur_pkg_t structs
 int aur_info_parse(char * data, aur_pkg_t * pkgs); // parse info query into aur_pkg_t struct
 void search_print(aur_pkg_t pkg); // pretty print for search queries

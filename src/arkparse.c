@@ -5,14 +5,18 @@ size_t aur_get(char * ptr, size_t size, size_t nmemb, void * user){
 //here in this function;
 if((size * nmemb) == 0){ fprintf(stderr,"aur_get: No Data"); return 0;}
  size_t data_size = (nmemb * size);
+ cdata * lhnd = (cdata *) user;
+ static size_t lac = 0;
  #ifdef ARK_DEBUG
-  printf("AUR_GET: DATA SIZE == %d\n",(int)data_size);
+  printf("AUR_GET: DATA SIZE == %d\n",(int)lac);
+  printf("AUR_GET_USER: ACCUM == %d\n",(int)lhnd->accum);
  #endif
- strncpy((char*)user, ptr, data_size);
+ strncpy((lhnd->data + lac), ptr, data_size + 1);
+ lac += data_size;
 return data_size;
 }
 
-void aur_search_data(char * keyword, int type, char * data ){
+void aur_search_data(char * keyword, int type, cdata * data ){
  CURL * cfetch;
  CURLcode cerror;
  curl_global_init(CURL_GLOBAL_DEFAULT | CURL_GLOBAL_SSL);

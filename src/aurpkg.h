@@ -28,6 +28,13 @@ struct aur_pkg_t
 
 typedef struct aur_pkg_t aur_pkg_t;
 
+struct cdata { 
+    char * data; //must be allocated
+    size_t accum; //accumulator
+};
+
+typedef struct cdata cdata;
+
 void aur_print(aur_pkg_t pkg); // pretty print for aur pkgs
 
 #endif // AURPKG_H

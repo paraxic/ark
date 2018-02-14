@@ -37,7 +37,7 @@ char ** sf_word_split(char * wordlist){
 }
 
 char * sf_word_prefix(char * first, char * second){
-	size_t size = strlen(first) + strlen(second);
+	size_t size = strlen(first) + strlen(second) + 1;
 	char * nstr = malloc(sizeof(char) * size);
 	memset((void*) nstr, 0, size);
 	strncpy(nstr, first, strlen(first) + 1);
