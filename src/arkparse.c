@@ -156,7 +156,7 @@ return 1;
 } 
 
 void search_print(aur_pkg_t pkg){
- printf("aur/%s %s\t (Maintainer: %s)\n\t%s\n",pkg.name,pkg.version,pkg.maintainer,pkg.description);
+ printf("aur/%s %s\n  (Maintainer: %s)\n  %s\n",pkg.name,pkg.version,pkg.maintainer,pkg.description);
 }
 
 void info_print(aur_pkg_t pkg){

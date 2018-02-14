@@ -16,6 +16,8 @@ if( strcmp(argv[1],"-s") == 0 || strcmp(argv[1], "--search") == 0){
  opt = AUR_SEARCH;
 } else if ( strcmp(argv[1], "-i") == 0 || strcmp(argv[1], "--info") == 0) {
  opt = AUR_INFO;
+} else if ( strcmp(argv[1], "-d") == 0 || strcmp(argv[1], "--download") == 0){
+ opt = AUR_GET;
 }
 aur_pkg_t pkgs[500];
 cdata data;

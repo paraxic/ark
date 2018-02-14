@@ -13,6 +13,7 @@
 
 #define AUR_SEARCH 1
 #define AUR_INFO 2
+#define AUR_GET 3
 #define AUR_BASE_URL "https://aur.archlinux.org/rpc/?v=5"
 
 size_t aur_get(char * ptr, size_t size, size_t nmemb, void * user); // curl callback
